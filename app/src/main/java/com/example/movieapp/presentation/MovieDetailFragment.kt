@@ -1,7 +1,6 @@
 package com.example.movieapp.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +14,15 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.data.network.Movie
 import kotlinx.coroutines.launch
-import kotlin.getValue
+import java.util.Locale
 
 class MovieDetailFragment : Fragment() {
     private val moviesViewModel: MoviesViewModel by viewModels { MoviesViewModel.Factory }
     private val poster: ImageView by lazy { requireView().findViewById(R.id.iv_poster) }
     private val title: TextView by lazy { requireView().findViewById(R.id.tv_title) }
     private val overview: TextView by lazy { requireView().findViewById(R.id.tv_overview) }
+    private val rating: TextView by lazy { requireView().findViewById(R.id.tv_rating) }
+    private val releaseDate: TextView by lazy { requireView().findViewById(R.id.tv_release_date) }
     private var movie: Movie? = null
     private val favoriteButton: Button by lazy { requireView().findViewById(R.id.btn_favorite) }
     private var isFavorite = false
@@ -50,6 +51,8 @@ class MovieDetailFragment : Fragment() {
                     .into(poster)
                 title.text = movie!!.title
                 overview.text = movie!!.overview
+                rating.text = String.format(Locale.US, "%.2f", movie!!.voteAverage)
+                releaseDate.text = movie!!.releaseDate
                 isFavorite = true
                 favoriteButton.text = getString(R.string.remove_from_favorites)
             } else {
@@ -61,6 +64,8 @@ class MovieDetailFragment : Fragment() {
                         .into(poster)
                     title.text = it.title
                     overview.text = it.overview
+                    rating.text = String.format(Locale.US, "%.2f", it.voteAverage)
+                    releaseDate.text = it.releaseDate
                     favoriteButton.text = getString(R.string.add_to_favorites)
                 }
             }

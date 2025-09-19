@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.data.network.Movie
+import java.util.Locale
 
 class MovieListAdapter(
     private val onItemClick: (Movie) -> Unit,
@@ -38,6 +39,7 @@ class MovieListAdapter(
             val poster = itemView.findViewById<ImageView>(R.id.iv_movie)
             val title = itemView.findViewById<TextView>(R.id.tv_title)
             val overview = itemView.findViewById<TextView>(R.id.tv_overview)
+            val rating = itemView.findViewById<TextView>(R.id.tv_rating)
 
             Glide
                 .with(itemView.context)
@@ -46,6 +48,7 @@ class MovieListAdapter(
 
             title.text = movie.title
             overview.text = movie.overview
+            rating.text = String.format(Locale.US, "%.2f", movie.voteAverage)
             movieCard.setOnClickListener {
                 onItemClick(movie)
             }
